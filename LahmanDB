@@ -1,0 +1,9 @@
+SELECT SAGG.playerID, SAGG.debut, SAGG.finalGame, SAGG.Total_Salary, round(SAGG.total_salary/daysbetween,2 ) AS Daily_Wage
+
+FROM (SELECT People.playerID, People.debut, People.finalGame, sum(Salaries.salary) as Total_Salary, HallOfFame.inducted, datediff("d", people.debut, people.finalgame) as DaysBetween
+
+FROM (People INNER JOIN Salaries ON People.playerID = Salaries.playerID) INNER JOIN HallOfFame ON Salaries.playerID = HallOfFame.playerID
+
+where halloffame.inducted = "y"
+
+group by People.playerID, People.debut, People.finalGame, HallOfFame.inducted)  AS SAGG;
